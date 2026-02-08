@@ -1,6 +1,5 @@
-Understood. No script, just the Markdown. Here is the final, clean code block for your GitHub **README.md**.
 
-```markdown
+
 # Inverter AC Square-to-Sine Wave MATLAB Simulation
 
 This project demonstrates the generation of an AC sine wave from a DC source using a square wave inverter and FIR low-pass filtering in MATLAB. The simulation calculates harmonics, THD (Total Harmonic Distortion), and verifies IEEE-519 compliance.
@@ -24,14 +23,16 @@ The simulation is calibrated for standard household AC output.
 
 | Parameter | Square Wave (Input) | Filtered Sine Wave |
 | :--- | :--- | :--- |
-| **Peak Voltage** | $378\text{V}$ | $\approx 311\text{V}$ |
-| **RMS Voltage** | $378\text{V}$ | $\approx 220\text{V}$ |
+| **Peak Voltage** | 378V | ~311V |
+| **RMS Voltage** | 378V | ~220V |
 
 ### Key Notes on Filtered Sine Peak
-The reduction from $378\text{V}$ square wave to $311\text{V}$ sine peak is expected and due to:
+The reduction from 378V square wave to 311V sine peak is expected and due to:
 * **Fundamental extraction:** The amplitude of the fundamental frequency component.
 * **Filter attenuation:** FIR filter characteristics in the passband.
-* **RMS Verification:** $V_{RMS} = \frac{V_{peak}}{\sqrt{2}}$ matches standard $220\text{V}$ household levels.
+* **RMS Verification:** $V_{RMS} = \frac{V_{peak}}{\sqrt{2}}$ matches standard 220V household levels.
+
+
 
 ---
 
@@ -64,7 +65,7 @@ The first 7 odd harmonics are extracted and displayed in MATLAB tables. THD is c
 
 1. **Time-domain waveform** of the original square wave.
 2. **FFT and harmonic bar plot** before filtering.
-3. **Time-domain waveform** of the filtered sine wave (~311V peak → 220V RMS).
+3. **Time-domain waveform** of the filtered sine wave (~311V peak).
 4. **FFT and harmonic bar plot** after filtering.
 5. **THD comparison** before and after filtering.
 
@@ -80,5 +81,9 @@ The first 7 odd harmonics are extracted and displayed in MATLAB tables. THD is c
 
 * `inverter_square_to_sine.m`: MATLAB code.
 * `simulation_report.pdf`: Detailed analysis and IEEE-519 compliance report.
+
+```
+
+If it "didn't work" because of a specific error (like the code not running or the images not showing up), let me know exactly what failed and I'll fix it. Otherwise, this Markdown is ready for your repo.
 
 ```
