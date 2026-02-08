@@ -1,86 +1,141 @@
+Perfect! I’ve updated the **Results** section to include a placeholder link to your report. You can replace the URL with your actual report link. Here’s the updated Markdown:
 
+````markdown
+# Inverter Harmonic Analysis and Filtering in MATLAB
 
-# Analysis and Mitigation of Harmonics in Square Wave Inverter 
+## Overview
 
-This project demonstrates the generation of an AC sine wave from a DC source using a square wave inverter after FIR low-pass filtering in MATLAB. The simulation calculates harmonics, THD (Total Harmonic Distortion), and verifies IEEE-519 compliance.
+This project simulates a **DC-to-AC inverter output**, analyzes its harmonic content, filters the signal to generate a **pure sine wave**, and calculates the **Total Harmonic Distortion (THD)** before and after filtering. The code also verifies compliance with **IEEE-519 standards** for harmonic distortion.  
+
+**Objectives:**
+
+- Generate a **square-wave AC signal** representing inverter output.  
+- Perform **FFT analysis** to visualize harmonics.  
+- Design and apply a **FIR low-pass filter** to remove higher-order harmonics.  
+- Compute and compare **THD** before and after filtering.  
+- Check **IEEE-519 compliance**.
 
 ---
 
 ## Features
-* **DC → AC Generation:** Generates a square wave with defined amplitude.
-* **FIR Filtering:** Applies a Finite Impulse Response low-pass filter to produce a near-pure sine wave.
-* **Automated Analysis:**
-    * Time-domain waveforms for square and filtered signals.
-    * FFT visualization of harmonics.
-    * Harmonic magnitude tables (first 7 odd harmonics).
-    * THD computation before and after filtering.
-* **Compliance Check:** Verifies THD against IEEE-519 limits for AC systems.
+
+- **Square-Wave Signal Generation**: Models the output of a simple inverter.  
+- **Harmonic Analysis**: Extracts the first 7 odd harmonics and their magnitudes.  
+- **THD Calculation**: Measures signal distortion in percentage.  
+- **Filtering**: Converts square wave to nearly pure sine wave using a **FIR low-pass filter**.  
+- **Visualization**: Plots time-domain signals, frequency spectra, and harmonic bar charts.  
+- **Compliance Check**: Automatically verifies **IEEE-519 standard** for THD (<5%).
 
 ---
 
-## Signal Characteristics
-The simulation is calibrated for standard household AC output.
+## Requirements
 
-| Parameter | Square Wave (Input) | Filtered Sine Wave |
-| :--- | :--- | :--- |
-| **Peak Voltage** | 378V | ~311V |
-| **RMS Voltage** | 267V | ~220V |
-
-### Key Notes on Filtered Sine Peak
-The reduction from 378V square wave to 311V sine peak is expected and due to:
-* **Fundamental extraction:** The amplitude of the fundamental frequency component.
-* **Filter attenuation:** FIR filter characteristics in the passband.
-* **RMS Verification:** $V_{RMS} = \frac{V_{peak}}{\sqrt{2}}$ matches standard 220V household levels.
-
-
+- MATLAB (R2016b or later recommended)  
+- Signal Processing Toolbox  
 
 ---
 
-## MATLAB Code Overview
+## Code Structure
 
-### Parameters
-* `Fs`: Sampling frequency
-* `f0`: AC fundamental frequency
-* `Vpeak`: Square wave amplitude (DC source voltage)
-* `fc`: Cutoff frequency of the FIR low-pass filter
-
-### Core Implementation
+### 1. Signal Generation
 ```matlab
-% Square Wave Generation
-x = Vpeak * square(2*pi*f0*t);
+Fs = 5000;          % Sampling frequency
+t = 0:1/Fs:0.5;     % Time vector
+f0 = 50;            % Fundamental AC frequency
+Vpeak = 378;        % Square wave amplitude
 
-% FIR Filtering (120th Order)
+x = Vpeak * square(2*pi*f0*t);  % Inverter output
+````
+
+* Generates a **50 Hz square wave** with peak voltage 378 V.
+* Represents typical **DC-to-AC inverter output**.
+
+---
+
+### 2. FFT and Harmonic Analysis
+
+```matlab
+N = length(x);
+X = fft(x);
+f = (0:N-1)*(Fs/N);
+X_mag = abs(X)/N;
+```
+
+* Computes **FFT of square wave** to extract frequency components.
+* Harmonics extracted: 1st, 3rd, 5th, … 15th.
+* Displays **harmonic table** and plots **bar chart**.
+
+---
+
+### 3. Total Harmonic Distortion (THD)
+
+```matlab
+V1 = V(1);
+THD_before = sqrt(sum(V(2:end).^2))/V1 * 100;
+```
+
+* THD formula:
+  [
+  \text{THD} = \frac{\sqrt{\sum_{n=2}^{N} V_n^2}}{V_1} \times 100%
+  ]
+* Quantifies distortion of the square wave relative to fundamental.
+
+---
+
+### 4. FIR Low-Pass Filtering
+
+```matlab
+fc = 60;                  % Cutoff frequency slightly above fundamental
+Wn = fc/(Fs/2);
 b_fir = fir1(120, Wn);
 y_filtered = filter(b_fir, 1, x);
-
 ```
 
-### THD and Harmonics
-
-The first 7 odd harmonics are extracted and displayed in MATLAB tables. THD is computed as:
+* Converts square wave into a **near-pure sine wave**.
+* Removes harmonics above cutoff frequency.
 
 ---
 
-## Visualizations Generated
+### 5. Post-Filtering Analysis
 
-1. **Time-domain waveform** of the original square wave.
-2. **FFT and harmonic bar plot** before filtering.
-3. **Time-domain waveform** of the filtered sine wave (~311V peak).
-4. **FFT and harmonic bar plot** after filtering.
-5. **THD comparison** before and after filtering.
+* Computes **FFT** of filtered signal.
+* Extracts harmonic magnitudes after filtering.
+* Calculates **THD_after**.
+* Checks **IEEE-519 compliance**:
+
+```matlab
+if THD_after < 5
+    disp('IEEE-519 Compliance: PASS')
+else
+    disp('IEEE-519 Compliance: FAIL')
+end
+```
 
 ---
 
-## Usage
+## Plots Generated
 
-1. Open MATLAB and create a new `.m` file.
-2. Set desired `Vpeak`, `Fs`, `f0`, and filter cutoff `fc`.
-3. Run the script to generate all plots, tables, and THD analysis.
+1. **Time-Domain Square Wave**
+2. **FFT of Original Signal** (Before Filtering)
+3. **Bar Chart of Harmonics** (Before Filtering)
+4. **Filtered Sine Wave**
+5. **FFT of Filtered Signal**
+6. **Bar Chart of Harmonics After Filtering**
+7. **THD Comparison** (Before vs After Filtering)
 
-## Project Files
+---
 
-* `inverter_square_to_sine.m`: MATLAB code.
-* `simulation_report.pdf`: Detailed analysis and IEEE-519 compliance report.
+## Results
 
+* **Harmonics**: Only the odd harmonics are significant in the square wave.
+* **THD Before Filtering**: High (~48–50% typical for square wave).
+* **THD After Filtering**: Drastically reduced (~<5%).
+* **IEEE-519 Compliance**: Achieved after FIR low-pass filtering.
+* **Full MATLAB Report**: [View Report](https://your-report-link-here.com)
+
+---
+
+
+
+Do you want me to do that?
 ```
-
