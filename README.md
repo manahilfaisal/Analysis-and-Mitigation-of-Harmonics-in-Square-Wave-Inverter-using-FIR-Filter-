@@ -128,11 +128,10 @@ end
 * **THD Before Filtering**: High (~48–50% typical for square wave).
 * **THD After Filtering**: Drastically reduced (~<5%).
 * **IEEE-519 Compliance**: Achieved after FIR low-pass filtering.
-* **Full MATLAB Report**: [View Report](https://your-report-link-here.com)
+* **Full Report**: [View Report](https://your-report-link-here.com)
 
 ---
 
 
 
-Do you want me to do that?
-```
+
