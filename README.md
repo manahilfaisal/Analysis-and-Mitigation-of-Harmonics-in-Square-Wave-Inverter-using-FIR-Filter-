@@ -128,7 +128,7 @@ end
 * **THD Before Filtering**: High (~48–50% typical for square wave).
 * **THD After Filtering**: Drastically reduced (~<5%).
 * **IEEE-519 Compliance**: Achieved after FIR low-pass filtering.
-* **Full Report**: [View Report](https://report_oel(2).pdf.com)
+* **Full Report**:[Inverter Harmonic Analysis and FIR Filtering Using MATLAB](Inverter_Harmonic_Analysis_Report.pdf)
 
 ---
 
