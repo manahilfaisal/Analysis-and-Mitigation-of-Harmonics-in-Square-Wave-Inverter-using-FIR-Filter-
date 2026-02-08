@@ -1,13 +1,13 @@
 
 
-# Inverter AC Square-to-Sine Wave MATLAB Simulation
+# Analysis and Mitigation of Harmonics in Square Wave Inverter 
 
 This project demonstrates the generation of an AC sine wave from a DC source using a square wave inverter and FIR low-pass filtering in MATLAB. The simulation calculates harmonics, THD (Total Harmonic Distortion), and verifies IEEE-519 compliance.
 
 ---
 
 ## Features
-* **DC → AC Generation:** Generates a square wave with user-defined amplitude.
+* **DC → AC Generation:** Generates a square wave with defined amplitude.
 * **FIR Filtering:** Applies a Finite Impulse Response low-pass filter to produce a near-pure sine wave.
 * **Automated Analysis:**
     * Time-domain waveforms for square and filtered signals.
@@ -24,7 +24,7 @@ The simulation is calibrated for standard household AC output.
 | Parameter | Square Wave (Input) | Filtered Sine Wave |
 | :--- | :--- | :--- |
 | **Peak Voltage** | 378V | ~311V |
-| **RMS Voltage** | 378V | ~220V |
+| **RMS Voltage** | 267V | ~220V |
 
 ### Key Notes on Filtered Sine Peak
 The reduction from 378V square wave to 311V sine peak is expected and due to:
@@ -84,6 +84,3 @@ The first 7 odd harmonics are extracted and displayed in MATLAB tables. THD is c
 
 ```
 
-If it "didn't work" because of a specific error (like the code not running or the images not showing up), let me know exactly what failed and I'll fix it. Otherwise, this Markdown is ready for your repo.
-
-```
