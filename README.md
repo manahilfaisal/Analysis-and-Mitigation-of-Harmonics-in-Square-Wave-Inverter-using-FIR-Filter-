@@ -2,7 +2,7 @@
 
 # Analysis and Mitigation of Harmonics in Square Wave Inverter 
 
-This project demonstrates the generation of an AC sine wave from a DC source using a square wave inverter and FIR low-pass filtering in MATLAB. The simulation calculates harmonics, THD (Total Harmonic Distortion), and verifies IEEE-519 compliance.
+This project demonstrates the generation of an AC sine wave from a DC source using a square wave inverter after FIR low-pass filtering in MATLAB. The simulation calculates harmonics, THD (Total Harmonic Distortion), and verifies IEEE-519 compliance.
 
 ---
 
