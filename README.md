@@ -125,10 +125,10 @@ end
 ## Results
 
 * **Harmonics**: Only the odd harmonics are significant in the square wave.
-* **THD Before Filtering**: High (~48–50% typical for square wave).
+* **THD Before Filtering**: High (~40-50% typical for square wave).
 * **THD After Filtering**: Drastically reduced (~<5%).
 * **IEEE-519 Compliance**: Achieved after FIR low-pass filtering.
-* **Full Report**:[Inverter Harmonic Analysis and FIR Filtering Using MATLAB](Inverter_Harmonic_Analysis_Report.pdf)
+* **Detailed Results**:[Inverter Harmonic Analysis and FIR Filtering Using MATLAB](Inverter_Harmonic_Analysis_Report.pdf)
 
 ---
 
