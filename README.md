@@ -72,8 +72,7 @@ V1 = V(1);
 THD_before = sqrt(sum(V(2:end).^2))/V1 * 100;
 ```
 
-* THD formula:
- THD formula: $ \text{THD} = \frac{\sqrt{\sum_{n=2}^{N} V_n^2}}{V_1} \times 100\% $
+* THD formula: $ \text{THD} = \frac{\sqrt{\sum_{n=2}^{N} V_n^2}}{V_1} \times 100\% $
 
 * Quantifies distortion of the square wave relative to fundamental.
 
