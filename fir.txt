@@ -1,0 +1,121 @@
+clc;
+clear;
+close all;
+
+Fs = 5000;                  % Sampling frequency
+t = 0:1/Fs:0.5;             % Time vector
+f0 = 50;                     % AC frequency
+
+             
+Vpeak = 378;                 % Square wave amplitude 
+
+
+x = Vpeak * square(2*pi*f0*t);   % DC → AC inverter output (square wave)
+
+figure;
+plot(t, x, 'LineWidth',1.2)
+xlabel('Time (s)')
+ylabel('Voltage (V)')
+title('Inverter AC (Square Wave) with Harmonics')
+grid on
+
+N = length(x);
+X = fft(x);
+f = (0:N-1)*(Fs/N);
+X_mag = abs(X)/N;
+
+figure;
+stem(f(1:N/2), X_mag(1:N/2),'filled')
+xlim([0 500])
+xlabel('Frequency (Hz)')
+ylabel('Magnitude')
+title('FFT Before Filtering')
+grid on
+
+harmonics = 1:2:15;  % First 7 odd harmonics
+freqs = harmonics * f0;
+
+for k = 1:length(freqs)
+    [~, idx(k)] = min(abs(f - freqs(k)));
+    V(k) = X_mag(idx(k));
+end
+
+Harmonic_Table = table(harmonics.', freqs.', V.', ...
+    'VariableNames', {'Harmonic_Order','Frequency_Hz','Magnitude_V'});
+disp('Harmonic Values BEFORE Filtering')
+disp(Harmonic_Table)
+
+
+figure;
+bar(freqs, V)
+xlabel('Frequency (Hz)')
+ylabel('Magnitude (V)')
+title('Harmonic Magnitudes BEFORE Filtering')
+grid on
+
+
+V1 = V(1);
+THD_before = sqrt(sum(V(2:end).^2))/V1 * 100;
+disp(['THD Before Filtering = ', num2str(THD_before), ' %'])
+
+fc = 60;                  % Cutoff slightly above fundamental to remove all harmonics
+Wn = fc/(Fs/2);
+b_fir = fir1(120, Wn);
+y_filtered = filter(b_fir,1,x);
+filter_type = 'FIR Low-pass (Sine)';
+
+
+figure;
+plot(t, y_filtered, 'LineWidth',1.2)
+xlabel('Time (s)')
+ylabel('Voltage (V)')
+title(['Filtered Signal (Pure Sine)'])
+grid on
+
+
+Y = fft(y_filtered);
+Y_mag = abs(Y)/N;
+
+figure;
+stem(f(1:N/2), Y_mag(1:N/2),'filled')
+xlim([0 500])
+xlabel('Frequency (Hz)')
+ylabel('Magnitude')
+title('FFT After Filtering (Pure Sine)')
+grid on
+
+for k = 1:length(freqs)
+    [~, idx_f(k)] = min(abs(f - freqs(k)));
+    V_f(k) = Y_mag(idx_f(k));
+end
+
+Filtered_Harmonic_Table = table(harmonics.', freqs.', V_f.', ...
+    'VariableNames', {'Harmonic_Order','Frequency_Hz','Magnitude_After_Filter_V'});
+disp('Harmonic Values AFTER Filtering (Should be near zero except fundamental)')
+disp(Filtered_Harmonic_Table)
+
+
+figure;
+bar(freqs, V_f)
+xlabel('Frequency (Hz)')
+ylabel('Magnitude (V)')
+title('Harmonic Magnitudes AFTER Filtering (Pure Sine)')
+grid on
+
+V1_f = V_f(1);
+THD_after = sqrt(sum(V_f(2:end).^2))/V1_f * 100;
+disp(['THD After Filtering = ', num2str(THD_after), ' %'])
+
+
+figure;
+bar([1 2],[THD_before THD_after])
+set(gca,'XTickLabel',{'Before Filter','After Filter'})
+ylabel('THD (%)')
+title('THD Comparison')
+grid on
+
+if THD_after < 5
+    disp('IEEE-519 Compliance: PASS')
+else
+    disp('IEEE-519 Compliance: FAIL')
+end
